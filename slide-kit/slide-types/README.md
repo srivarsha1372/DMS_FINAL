@@ -636,6 +636,8 @@ per press), sit on the body's left datum, and are in the gallery under
 | `MatrixOrder` | a matrix flattened row-major or column-major | a grid of unrelated values |
 | `VennMini` | one set-operation region, small, in a table cell | a labelled Venn diagram |
 | `ClassTree` | a classification, top-down | layers of one system (`LayerStack`) |
+| `RelationGraph` (+ `layered`, `columns`, `pairs`) | a relation as a digraph (loops included), a compatibility diagram, a composition across sets, a Hasse diagram; ovals round a class or block. Added 2026-11-23, DSM "Relations and Ordering" | a process (`FlowChart`), memory cells (`MemoryMap`) |
+| `FunctionPlot` | the graph of y = f(x) over its own domain: codomain bar on the y-axis, a faded removed part, an open-circle gap, the mirror line y = x for an inverse. Added 2026-11-23, DSM "Functions" | a data chart, a process (`FlowChart`) |
 
 Two opt-in additions to existing types, same date:
 

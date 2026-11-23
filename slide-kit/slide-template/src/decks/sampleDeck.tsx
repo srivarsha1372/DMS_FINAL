@@ -98,7 +98,7 @@ export const sampleMeta: DeckMeta = {
   player: { autoHideControls: true },
 }
 
-import { BitStrip, ClassTree, MatrixOrder, MemoryMap, VennMini, chain } from '@/ui/structures'
+import { BitStrip, ClassTree, FunctionPlot, MatrixOrder, MemoryMap, RelationGraph, VennMini, chain, layered } from '@/ui/structures'
 
 const FOOTER = 'REST APIs · Backend'
 
@@ -1600,6 +1600,68 @@ export const sampleDeck: SlideDef[] = [
     element: (
       <ContentSlide kicker="Structures" title="ClassTree" lead="Kinds, then kinds of kinds" lesson="Gallery">
         <ClassTree root={{ label: 'Numbers', children: [{ label: 'Integers', sub: '1, 2, 3' }, { label: 'Reals', sub: '1.5, 3.14' }] }} />
+      </ContentSlide>
+    ),
+  },
+  {
+    id: 'relation-graph',
+    label: 'Relation graph',
+    section: 'Structures',
+    notes:
+      'ELEMENTS AS DOTS, RELATED PAIRS AS ARROWS, LOOPS OR LINES. A digraph of a relation (an edge from a node to itself is a loop), a plain-line compatibility diagram (`kind: line`), a composition across columns (`columns()`), or a Hasse diagram (`layered()`, bottom level first, `kind: line`). `groups` draw an oval round a class or a block. Not for a process (FlowChart) or memory cells (MemoryMap).',
+    element: (
+      <ContentSlide kicker="Structures" title="RelationGraph" lead="({1, 2, 4}, divides): digraph, then Hasse diagram" lesson="Gallery">
+        <RelationGraph
+          width={400}
+          height={300}
+          frames={[
+            {
+              nodes: layered([[{ id: '1', label: '1' }], [{ id: '2', label: '2' }], [{ id: '4', label: '4' }]], { cx: 120, bottom: 260, rowGap: 100 }),
+              edges: [
+                { id: 'a', from: '1', to: '2' },
+                { id: 'b', from: '2', to: '4' },
+                { id: 'c', from: '1', to: '4', bend: -60 },
+                { id: 'l1', from: '1', to: '1', side: 'right' },
+                { id: 'l2', from: '2', to: '2', side: 'right' },
+                { id: 'l4', from: '4', to: '4', side: 'right' },
+              ],
+            },
+            {
+              nodes: layered([[{ id: '1', label: '1' }], [{ id: '2', label: '2' }], [{ id: '4', label: '4' }]], { cx: 120, bottom: 260, rowGap: 100 }),
+              edges: [
+                { id: 'a', from: '1', to: '2', kind: 'line' },
+                { id: 'b', from: '2', to: '4', kind: 'line' },
+              ],
+            },
+          ]}
+        />
+      </ContentSlide>
+    ),
+  },
+  {
+    id: 'function-plot',
+    label: 'Function plot',
+    section: 'Structures',
+    notes:
+      'THE GRAPH OF y = f(x), DRAWN ONLY OVER ITS DOMAIN. `codomain` is a bar on the y-axis, `faded` draws a part no longer in the domain, `holes` are open circles, `mirror` draws y = x for an inverse. Each frame is one press; a new curve draws itself. Not for data series (a chart) or a process (FlowChart).',
+    element: (
+      <ContentSlide kicker="Structures" title="FunctionPlot" lead="x² restricted to [0, ∞), and its inverse √x" lesson="Gallery">
+        <FunctionPlot
+          width={420}
+          height={330}
+          x={[-2.5, 5]}
+          y={[-1, 5]}
+          frames={[
+            { curves: [{ id: 'sq', fn: (x) => x * x, domain: [-2.2, 2.2] }], caption: 'x² on R' },
+            { curves: [{ id: 'sqL', fn: (x) => x * x, domain: [-2.2, 0], faded: true }, { id: 'sq', fn: (x) => x * x, domain: [0, 2.2] }], codomain: [0, 5], caption: 'Restricted to [0, ∞)' },
+            {
+              curves: [{ id: 'sqL', fn: (x) => x * x, domain: [-2.2, 0], faded: true }, { id: 'sq', fn: (x) => x * x, domain: [0, 2.2] }, { id: 'rt', fn: Math.sqrt, domain: [0, 4.9], tone: 'ok' }],
+              codomain: [0, 5],
+              mirror: true,
+              caption: '√x mirrors it in y = x',
+            },
+          ]}
+        />
       </ContentSlide>
     ),
   },
