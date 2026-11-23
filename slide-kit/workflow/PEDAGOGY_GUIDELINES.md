@@ -50,6 +50,13 @@ Quiz Time! → Recap → Practice → Feedback → Thank you (next-up teaser)
   products even without logging in. Today we put locks on the doors."
 - **Slide 5 is `Initial Setup`**, the venv and requirements commands, so every
   learner starts the session from the same running state.
+- **Amended 2026-11-23: both are conditional on the TR doc.** Make the
+  `Where We Left Off` recap and the `Initial Setup` slide **only when the TR
+  doc has them** (a recap or setup section, or setup commands). Never add
+  either from the corpus shape alone. User, on DSM "Relations and Ordering":
+  *"Where we left off, initial setup aren't necessary. Create such slides only
+  if its mentioned in the TR Doc."* The DSM TRs have neither, and the two
+  earlier DSM plans had to ask about both.
 - The deck ends by naming the **next** session by title, as a teaser slide.
 
 ## 2. Narrative flow: the invariant, and the four frameworks

@@ -159,6 +159,7 @@ turn that writes slide copy:
 | Rule | Full text |
 |---|---|
 | Every concept opens on a felt need and closes on something observable. This never varies | [`PEDAGOGY_GUIDELINES.md`](slide-kit/workflow/PEDAGOGY_GUIDELINES.md) section 2, and [`slide-content-rules`](.claude/skills/slide-content-rules/SKILL.md) rule 23 |
+| `Where We Left Off` and `Initial Setup` slides are made only when the TR doc has them (2026-11-23) | [`PEDAGOGY_GUIDELINES.md`](slide-kit/workflow/PEDAGOGY_GUIDELINES.md) section 1 |
 | The middle varies: STAR for a mechanism (default), 4MAT for a definition, SCQA for a choice, Merrill for a skill | same, "Choosing the middle". One framework per concept, named in the plan |
 | Two opening slides in every framework: the routine running, then the point it breaks | same. One means the cost beat is missing, which is this rule's known failure mode |
 | A framework is never an escape hatch from the opening: 4MAT's Why is STAR's Situation | same |
