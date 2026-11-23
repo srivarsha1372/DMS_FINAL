@@ -23,7 +23,7 @@ const session = process.env.AGENDA_NAME ?? TITLE
 const tag = 'agenda'
 const OUT = 'workflow/qa-shots/phone'
 mkdirSync(OUT, { recursive: true })
-const browser = await chromium.launch()
+const browser = await chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {})
 let fails = 0
 const fail = (m) => { fails++; console.log('   FAIL', m) }
 const ok = (m) => console.log('   ok', m)

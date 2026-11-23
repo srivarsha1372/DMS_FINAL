@@ -212,6 +212,13 @@ export interface FeedbackSlideProps extends Base {
   prompt?: ReactNode
   /** @deprecated not rendered since 2026-10-14; the form's link is fixed by rule 41 */
   link?: string
+  /**
+   * The header only: no QR box and no embedded form. For a deck whose owner
+   * asked for the feedback frame without them (DSM "Representation of Discrete
+   * Structures", user, 2026-11-21). Off by default, so the standard slide of
+   * content rule 41 is unchanged everywhere else.
+   */
+  formless?: boolean
 }
 
 /*

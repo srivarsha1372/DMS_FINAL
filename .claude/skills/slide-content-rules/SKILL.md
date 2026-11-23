@@ -1401,6 +1401,17 @@ only session-specific text changed. Do not recreate or redesign it."* That
 is why the built file is named as the source of truth and the check compares
 markup rather than trusting a description.
 
+**Amended 2026-11-21: no form and no QR code.** The user, on DSM
+"Representation of Discrete Structures": *"No need to add feedback form or QR
+code in the feedback slides"*, then *"Keep feedback slide content to left
+centre of the slide"*, and confirmed it as the rule for every deck from then
+on. Every deck now uses `<FeedbackSlide lesson={SESSION} formless />`: the kit's
+slide, its night ground, kicker, title and line, on the left and centred top to
+bottom, with no QR box and no embedded form. Still never redrawn: `formless` is
+a prop of the kit's slide. `feedback-check.mjs` still compares against the
+gallery's full slide, so it reports a difference on a `formless` deck until the
+check is updated to expect the formless form. Delivered decks are frozen.
+
 ## 48. Every slide sits on one of the kit's three grounds, and a slide never paints its own
 
 **Hard rule.** The frame paints the ground, from `src/design/ground.tsx`: the

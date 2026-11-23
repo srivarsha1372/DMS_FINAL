@@ -53,6 +53,8 @@ const HOUSE = 'cubic-bezier(0.22, 1, 0.36, 1)'
 const CSS = `
 /* 760 wide (x 64..824, short of the speaker box) so the title sits on ONE line at 44px (user, 2026-10-06). */
 .fb-header { position: absolute; left: 64px; top: 48px; width: 760px; }
+/* formless: the header alone, on the left, centred top to bottom (user, 2026-11-21) */
+.fb-header.fb-formless { top: 120px; bottom: 120px; display: flex; flex-direction: column; justify-content: center; }
 .fb-title { white-space: nowrap; }
 .fb-sub { margin-top: 14px; font: 400 19px/1.45 ${fonts.body}; color: rgba(255,255,255,0.78); }
 .fb-body { position: absolute; left: 64px; top: 240px; width: 1152px; height: 400px; }
@@ -125,10 +127,10 @@ if (typeof document !== 'undefined' && !document.querySelector('style[data-fb-fo
  * The header is kept out of the body block so `align-check.mjs` reads the body
  * as one aligned block, the way it reads every `ZonedFrame` slide.
  */
-export function FeedbackSlide({ lesson }: FeedbackSlideProps) {
+export function FeedbackSlide({ lesson, formless = false }: FeedbackSlideProps) {
   return (
     <SlideBase variant="night" lesson={lesson} footer padded={false}>
-      <RevealGroup className="fb-header" stagger={0.1}>
+      <RevealGroup className={formless ? 'fb-header fb-formless' : 'fb-header'} stagger={0.1}>
         <Reveal dir="up">
           <Kicker onDark>Feedback</Kicker>
         </Reveal>
@@ -142,6 +144,7 @@ export function FeedbackSlide({ lesson }: FeedbackSlideProps) {
         </Reveal>
       </RevealGroup>
 
+      {!formless && (
       <RevealGroup className="fb-body" delayChildren={0.3}>
         <Reveal dir="up" className="fb-box">
           <div className="fb-qr">
@@ -164,6 +167,7 @@ export function FeedbackSlide({ lesson }: FeedbackSlideProps) {
           </div>
         </Reveal>
       </RevealGroup>
+      )}
     </SlideBase>
   )
 }

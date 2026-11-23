@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { motion } from "framer-motion";
 import { useInstant } from "@/motion/instant";
+import { useClaimedSteps } from "@/motion/Stepper";
 import { accentByTone, colors, type Tone } from "@/design/tokens";
 
 /**
@@ -26,6 +27,17 @@ import { accentByTone, colors, type Tone } from "@/design/tokens";
  * It is deliberately not a click-driven build. A table is a single exhibit that
  * happens to have parts; making the presenter click through five rows turns one
  * idea into five beats. The whole thing is on screen inside two seconds.
+ *
+ * TWO OPT-IN BUILDS, for the tables where the rows ARE the beats
+ * (added 2026-11-21 for DSM "Representation of Discrete Structures"):
+ *
+ *   `stepped`        each data row is one press. For a table that is built one
+ *                    row at a time (pedagogy section 3: "a table: one row").
+ *   `revealColumn`   every row is on screen, but the cells of this ONE column
+ *                    (0-based) arrive one per press. For a vote: the room sees
+ *                    the question rows, answers, then the answer appears.
+ *
+ * Neither is the default, so every existing table still assembles on arrival.
  */
 
 /** Beat map for the entrance, in seconds. */
@@ -52,6 +64,8 @@ export function DataTable({
   /** 1-based row numbers to emphasize. */
   highlight = [],
   compact = false,
+  stepped = false,
+  revealColumn,
   className = "",
 }: {
   columns: TableColumn[];
@@ -59,8 +73,14 @@ export function DataTable({
   tone?: Tone;
   highlight?: number[];
   compact?: boolean;
+  /** Each data row is one build step. */
+  stepped?: boolean;
+  /** 0-based column whose cells arrive one per build step, row by row. */
+  revealColumn?: number;
   className?: string;
 }) {
+  const gated = stepped || revealColumn !== undefined;
+  const shown = useClaimedSteps(gated ? rows.length : 0);
   /* On an instant jump (Ctrl+arrow) the rest of the slide snaps to its final
      state, so the table must too: a lone cascading table would be the only thing
      moving on an otherwise still slide. */
@@ -164,25 +184,28 @@ export function DataTable({
                 : undefined,
             }}
             initial={instant ? false : { opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={stepped && !shown[r] ? { opacity: 0, y: 14 } : { opacity: 1, y: 0 }}
             transition={{
-              delay: headerEnd + r * ROW_STEP,
+              delay: stepped ? 0 : headerEnd + r * ROW_STEP,
               duration: 0.5,
               ease: EASE,
             }}
           >
             {row.map((cell, c) => {
               const col = columns[c];
+              const hidden = revealColumn === c && !shown[r];
               return (
-                <div
+                <motion.div
                   key={c}
+                  initial={false}
+                  animate={{ opacity: hidden ? 0 : col?.dim ? 0.45 : 1 }}
+                  transition={{ duration: instant ? 0 : 0.45, ease: EASE }}
                   className={`${pad} text-body-sm leading-snug ${
                     col?.align === "center" ? "text-center" : ""
                   } ${c === 0 ? "font-semibold text-ink" : "text-body"}`}
-                  style={col?.dim ? { opacity: 0.45 } : undefined}
                 >
                   {cell}
-                </div>
+                </motion.div>
               );
             })}
           </motion.div>
