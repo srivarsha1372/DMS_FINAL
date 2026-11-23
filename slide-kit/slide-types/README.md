@@ -621,3 +621,29 @@ documentation; the slide is only the proof it renders.
 Retiring works the same way: add it to `remove:` in `sync-kit.mjs` with the
 reason, and say here that it is retired and why, the way `QuizSlide` is above.
 Sessions that still reference it fail their own typecheck, which is intended.
+
+
+## Structures: figures for how data is stored (added 2026-11-21)
+
+Import by path, `@/ui/structures`. All five step through `frames` (or one node
+per press), sit on the body's left datum, and are in the gallery under
+"Structures". First used by DSM "Representation of Discrete Structures".
+
+| Figure | Use for | Not for |
+|---|---|---|
+| `MemoryMap` (+ `row`, `column`, `chain`) | memory locations with addresses, pointers, linked lists, array inserts that shift | a process (`FlowChart`), a table of values (`DataTable`) |
+| `BitStrip` | a set as one bit per element; OR / AND / NOT row by row; a sieve | a binary number read as a value |
+| `MatrixOrder` | a matrix flattened row-major or column-major | a grid of unrelated values |
+| `VennMini` | one set-operation region, small, in a table cell | a labelled Venn diagram |
+| `ClassTree` | a classification, top-down | layers of one system (`LayerStack`) |
+| `RelationGraph` (+ `layered`, `columns`, `pairs`) | a relation as a digraph (loops included), a compatibility diagram, a composition across sets, a Hasse diagram; ovals round a class or block. Added 2026-11-23, DSM "Relations and Ordering" | a process (`FlowChart`), memory cells (`MemoryMap`) |
+| `FunctionPlot` | the graph of y = f(x) over its own domain: codomain bar on the y-axis, a faded removed part, an open-circle gap, the mirror line y = x for an inverse. Added 2026-11-23, DSM "Functions" | a data chart, a process (`FlowChart`) |
+
+Two opt-in additions to existing types, same date:
+
+- `DataTable` `stepped` (one row per press) and `revealColumn` (one column's
+  cells per press, for vote-then-answer tables). Off by default.
+- `FeedbackSlide` `formless`: the header only, left, centred top to bottom, for
+  a deck whose owner asked for no form and no QR. Off by default, so content
+  rule 41's standard slide is unchanged; `feedback-check.mjs` flags a deck that
+  uses it, by design.

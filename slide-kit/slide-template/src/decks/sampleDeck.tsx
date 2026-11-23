@@ -98,6 +98,8 @@ export const sampleMeta: DeckMeta = {
   player: { autoHideControls: true },
 }
 
+import { BitStrip, ClassTree, FunctionPlot, MatrixOrder, MemoryMap, RelationGraph, VennMini, chain, layered } from '@/ui/structures'
+
 const FOOTER = 'REST APIs · Backend'
 
 const serializerCode = `from rest_framework import serializers
@@ -1514,6 +1516,154 @@ export const sampleDeck: SlideDef[] = [
     notes:
       'THE SIGNPOST BEFORE THE CLOSE. A glass chip reading "Next Session" over the next session\'s name, on the mesh ground, the two centred together as one block. The name is written the way that session\'s own title slide will write it, and nothing else goes on the frame: no line on why it follows, no list of what it covers. It sits after the takeaways and before the feedback frame (content rule 41: feedback is followed only by the close), which is why Thank you carries no "next up" line of its own.',
     element: <NextSessionSlide title="Lists and Strings" lesson={FOOTER} />,
+  },
+  /* ── STRUCTURES: how data is stored (added 2026-11-21, DSM) ─────────── */
+  {
+    id: 'memory-map',
+    label: 'Memory map',
+    section: 'Structures',
+    notes:
+      'MEMORY LOCATIONS, WHAT THEY HOLD, AND THE LINKS BETWEEN THEM. One engine for a memory strip, a pointer and a linked list: `row()`, `column()` and `chain()` lay cells out, `fields` makes a two-field node (INFO | LINK), `arrows` are clipped to both boxes. Steps through `frames`: a cell that moves between frames slides (an array insert), an arrow that changes is redrawn (a list insert). Not for a flow of steps (FlowChart) or a table of values (DataTable).',
+    element: (
+      <ContentSlide kicker="Structures" title="MemoryMap" lead="A linked list, built one node per press" lesson="Gallery">
+        <MemoryMap
+          width={900}
+          height={160}
+          frames={[1, 2, 3].map((k) => {
+            const c = chain(
+              [
+                { id: 'a', info: '12', link: '1080', addr: 1020 },
+                { id: 'b', info: '25', link: '1000', addr: 1080 },
+                { id: 'c', info: '37', link: 'NULL', addr: 1000 },
+              ],
+              { x: 110, y: 40 },
+            )
+            return { cells: c.cells.slice(0, k), arrows: c.arrows.slice(0, k - 1), markers: [{ id: 'f', cell: 'a', text: 'FIRST', side: 'left' as const }] }
+          })}
+        />
+      </ContentSlide>
+    ),
+  },
+  {
+    id: 'bit-strip',
+    label: 'Bit strip',
+    section: 'Structures',
+    notes:
+      'A SET AS ONE LIT OR DARK CELL PER ELEMENT. The universe sits above its column, so a 1 reads as a member, not as a binary digit. Rows under one header show OR / AND / NOT column by column; a row whose cells switch off one pass at a time is a sieve. Bits that are not 0 or 1 draw an empty slot, for a row built with the room.',
+    element: (
+      <ContentSlide kicker="Structures" title="BitStrip" lead="U = {1, …, 6}: A, B and A OR B" lesson="Gallery">
+        <BitStrip
+          elements={['1', '2', '3', '4', '5', '6']}
+          setWidth={180}
+          frames={[
+            { rows: [{ label: 'A', bits: '101010', set: '{1, 3, 5}' }, { label: 'B', bits: '011000', set: '{2, 3}' }] },
+            { rows: [{ label: 'A', bits: '101010', set: '{1, 3, 5}' }, { label: 'B', bits: '011000', set: '{2, 3}' }, { label: 'A OR B', bits: '111010', set: '{1, 2, 3, 5}', result: true }] },
+          ]}
+        />
+      </ContentSlide>
+    ),
+  },
+  {
+    id: 'matrix-order',
+    label: 'Matrix order',
+    section: 'Structures',
+    notes:
+      'A MATRIX LAID OUT IN ONE LINE, ROW BY ROW OR COLUMN BY COLUMN. Each grid cell gains its position number as it is laid into the line, so "7th in row-major, 8th in column-major" is read off the picture. Frames set the order, how many cells are laid, and one lit cell.',
+    element: (
+      <ContentSlide kicker="Structures" title="MatrixOrder" lead="Row-major, one row per press" lesson="Gallery">
+        <MatrixOrder m={2} n={3} frames={[{ order: 'row', filled: 0 }, { order: 'row', filled: 3 }, { order: 'row', filled: 6, lit: [2, 1] }]} />
+      </ContentSlide>
+    ),
+  },
+  {
+    id: 'venn-mini',
+    label: 'Venn mini',
+    section: 'Structures',
+    notes:
+      'TWO SETS IN A UNIVERSE, ONE REGION SHADED: union, intersection, complement, difference, symmetric. Small enough for a table cell beside the operation it pictures. Not a full Venn slide with labelled elements.',
+    element: (
+      <ContentSlide kicker="Structures" title="VennMini" lead="The five regions" lesson="Gallery">
+        <div className="flex gap-6">
+          {(['union', 'intersection', 'complement', 'difference', 'symmetric'] as const).map((r) => (
+            <VennMini key={r} region={r} />
+          ))}
+        </div>
+      </ContentSlide>
+    ),
+  },
+  {
+    id: 'class-tree',
+    label: 'Class tree',
+    section: 'Structures',
+    notes:
+      'A CLASSIFICATION, TOP-DOWN, ONE NODE PER PRESS in reading order. Every box is a kind of its parent. Not a process (FlowChart) and not layers of one system (LayerStack).',
+    element: (
+      <ContentSlide kicker="Structures" title="ClassTree" lead="Kinds, then kinds of kinds" lesson="Gallery">
+        <ClassTree root={{ label: 'Numbers', children: [{ label: 'Integers', sub: '1, 2, 3' }, { label: 'Reals', sub: '1.5, 3.14' }] }} />
+      </ContentSlide>
+    ),
+  },
+  {
+    id: 'relation-graph',
+    label: 'Relation graph',
+    section: 'Structures',
+    notes:
+      'ELEMENTS AS DOTS, RELATED PAIRS AS ARROWS, LOOPS OR LINES. A digraph of a relation (an edge from a node to itself is a loop), a plain-line compatibility diagram (`kind: line`), a composition across columns (`columns()`), or a Hasse diagram (`layered()`, bottom level first, `kind: line`). `groups` draw an oval round a class or a block. Not for a process (FlowChart) or memory cells (MemoryMap).',
+    element: (
+      <ContentSlide kicker="Structures" title="RelationGraph" lead="({1, 2, 4}, divides): digraph, then Hasse diagram" lesson="Gallery">
+        <RelationGraph
+          width={400}
+          height={300}
+          frames={[
+            {
+              nodes: layered([[{ id: '1', label: '1' }], [{ id: '2', label: '2' }], [{ id: '4', label: '4' }]], { cx: 120, bottom: 260, rowGap: 100 }),
+              edges: [
+                { id: 'a', from: '1', to: '2' },
+                { id: 'b', from: '2', to: '4' },
+                { id: 'c', from: '1', to: '4', bend: -60 },
+                { id: 'l1', from: '1', to: '1', side: 'right' },
+                { id: 'l2', from: '2', to: '2', side: 'right' },
+                { id: 'l4', from: '4', to: '4', side: 'right' },
+              ],
+            },
+            {
+              nodes: layered([[{ id: '1', label: '1' }], [{ id: '2', label: '2' }], [{ id: '4', label: '4' }]], { cx: 120, bottom: 260, rowGap: 100 }),
+              edges: [
+                { id: 'a', from: '1', to: '2', kind: 'line' },
+                { id: 'b', from: '2', to: '4', kind: 'line' },
+              ],
+            },
+          ]}
+        />
+      </ContentSlide>
+    ),
+  },
+  {
+    id: 'function-plot',
+    label: 'Function plot',
+    section: 'Structures',
+    notes:
+      'THE GRAPH OF y = f(x), DRAWN ONLY OVER ITS DOMAIN. `codomain` is a bar on the y-axis, `faded` draws a part no longer in the domain, `holes` are open circles, `mirror` draws y = x for an inverse. Each frame is one press; a new curve draws itself. Not for data series (a chart) or a process (FlowChart).',
+    element: (
+      <ContentSlide kicker="Structures" title="FunctionPlot" lead="x² restricted to [0, ∞), and its inverse √x" lesson="Gallery">
+        <FunctionPlot
+          width={420}
+          height={330}
+          x={[-2.5, 5]}
+          y={[-1, 5]}
+          frames={[
+            { curves: [{ id: 'sq', fn: (x) => x * x, domain: [-2.2, 2.2] }], caption: 'x² on R' },
+            { curves: [{ id: 'sqL', fn: (x) => x * x, domain: [-2.2, 0], faded: true }, { id: 'sq', fn: (x) => x * x, domain: [0, 2.2] }], codomain: [0, 5], caption: 'Restricted to [0, ∞)' },
+            {
+              curves: [{ id: 'sqL', fn: (x) => x * x, domain: [-2.2, 0], faded: true }, { id: 'sq', fn: (x) => x * x, domain: [0, 2.2] }, { id: 'rt', fn: Math.sqrt, domain: [0, 4.9], tone: 'ok' }],
+              codomain: [0, 5],
+              mirror: true,
+              caption: '√x mirrors it in y = x',
+            },
+          ]}
+        />
+      </ContentSlide>
+    ),
   },
   {
     id: 'feedback',

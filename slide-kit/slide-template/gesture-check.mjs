@@ -18,7 +18,7 @@ import { HTML_FILE, TITLE } from './deck.config.mjs'
    e.g. CONTENT_SLIDE=9 node gesture-check.mjs. (kit, 2026-10-14) */
 const CONTENT_SLIDE = Number(process.env.CONTENT_SLIDE ?? 8) // a slide with slides on both sides of it
 const html = resolve(process.argv[2] ?? HTML_FILE)
-const browser = await chromium.launch()
+const browser = await chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {})
 let fails = 0
 const fail = (m) => { fails++; console.log('   FAIL', m) }
 const ok = (m) => console.log('   ok', m)

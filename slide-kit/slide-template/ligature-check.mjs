@@ -14,7 +14,7 @@ import { chromium } from 'playwright'
 import { resolve } from 'node:path'
 import { HTML_FILE, SLIDE_COUNT } from './deck.config.mjs'
 const html = resolve(process.argv[2] ?? HTML_FILE)
-const browser = await chromium.launch()
+const browser = await chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {})
 const page = await browser.newPage({ viewport: { width: 1280, height: 720 } })
 let fails = 0
 const found = []
