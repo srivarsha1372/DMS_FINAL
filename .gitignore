@@ -22,6 +22,8 @@
 # ── build output ──────────────────────────────────────────────────────────
 **/dist/
 **/dist-ssr/
+# the artifact page tr-to-webslides-artifact converts a build into; regenerated, never edited
+**/dist-artifact/
 # The self-contained single-file decks ARE tracked, by request: they are what
 # gets handed to an instructor, and a 4 MB HTML that only exists on one laptop
 # is not a deliverable. Everything else vite writes here (the unnamed
@@ -36,6 +38,7 @@
 # 4 MB byte-for-byte copy this block exists to keep out.
 !**/dist-single/state-behaviour-constructor.html
 !**/dist-single/python-session-*.html
+!**/dist-single/representation-of-discrete-structures.html
 **/.vite/
 *.tsbuildinfo
 
