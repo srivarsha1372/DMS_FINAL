@@ -1,4 +1,4 @@
-import { Deck } from './deck/Deck'
+import { EditableDeck } from './deck/edit/EditableDeck'
 import { deck, meta } from './decks/activeDeck'
 
 /**
@@ -21,7 +21,7 @@ import { deck, meta } from './decks/activeDeck'
 export function App() {
   return (
     <div className="deck-viewport">
-      <Deck slides={deck} meta={meta} transition="slide" />
+      <EditableDeck slides={deck} meta={meta} transition="slide" />
     </div>
   )
 }

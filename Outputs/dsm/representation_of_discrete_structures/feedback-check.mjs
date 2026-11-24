@@ -58,7 +58,11 @@ const read = async (file) => {
   if (!n) { await p.close(); return null }
   await p.waitForTimeout(2500) /* entrance settled */
   const r = await p.evaluate(() => {
-    const stage = [...document.querySelectorAll('section')].filter((s) => s.getBoundingClientRect().width >= 1200 && s.querySelector('iframe')).pop()
+    /* The stage section. It used to be found by its form frame, which a `formless` slide (rule 41 as
+       amended 2026-11-21) does not have: every formless deck then compared two empty strings and
+       passed the markup test vacuously. Prefer a stage with a frame, else the last full-width one. */
+    const wide = [...document.querySelectorAll('section')].filter((s) => s.getBoundingClientRect().width >= 1200)
+    const stage = wide.filter((s) => s.querySelector('iframe')).pop() ?? wide.pop()
     const q = stage?.querySelector('img[src*="feedback-qr"], img[alt*="QR"]')
     return {
       html: stage ? stage.outerHTML.replace(/\sstyle="[^"]*opacity[^"]*"/g, '') : '',
@@ -97,9 +101,14 @@ if (src && tgt) {
     while (i < html.length && html[i] === src.html[i]) i++
     console.log(`        first difference at char ${i}:\n        source: …${src.html.slice(Math.max(0, i - 60), i + 80)}\n        deck:   …${html.slice(Math.max(0, i - 60), i + 80)}`)
   }
-  say(tgt.qr > 0, `QR image loads (${tgt.qr}px)`)
-  say(tgt.link.some((t) => t.includes('forms.gle/5d1Ru8geTKdC4Bcr7')), 'link text forms.gle/5d1Ru8geTKdC4Bcr7')
-  say(tgt.frame === src.frame && /viewform\?embedded=true/.test(tgt.frame), 'form frame src matches the source')
+  say(src.html.length > 0, "the kit's feedback slide was found and is not empty")
+  if (src.frame) {
+    say(tgt.qr > 0, `QR image loads (${tgt.qr}px)`)
+    say(tgt.link.some((t) => t.includes('forms.gle/5d1Ru8geTKdC4Bcr7')), 'link text forms.gle/5d1Ru8geTKdC4Bcr7')
+    say(tgt.frame === src.frame && /viewform\?embedded=true/.test(tgt.frame), 'form frame src matches the source')
+  } else {
+    say(!tgt.frame && tgt.qr === 0, "formless, like the kit's: no form frame and no QR")
+  }
   say(/-thank-you$/.test(tgt.next) && /-all-the-best$/.test(tgt.next2) && tgt.last, `feedback is slide ${tgt.n}, followed only by Thank you and All the Best (${tgt.next}, ${tgt.next2})`)
 }
 console.log(ok ? '\nfeedback: the kit\'s slide, untouched' : '\nfeedback: NOT the kit\'s slide')

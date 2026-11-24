@@ -280,3 +280,22 @@ html {
     box-shadow: 0 18px 40px -18px rgba(45, 99, 251, 0.45);
   }
 }
+
+/*
+  Edit mode (src/deck/edit): every line an Editor can retype shows a dashed
+  outline on hover, and the line being typed in a solid one. Only present inside
+  an artifact that grants editing; nothing here applies anywhere else.
+*/
+.deck-text-editing [data-editable] {
+  cursor: text;
+  border-radius: 4px;
+}
+.deck-text-editing [data-editable]:hover {
+  outline: 2px dashed rgba(45, 99, 251, 0.6);
+  outline-offset: 2px;
+}
+.deck-text-editing [contenteditable] {
+  outline: 2px solid #2d63fb;
+  outline-offset: 2px;
+  background: rgba(45, 99, 251, 0.06);
+}

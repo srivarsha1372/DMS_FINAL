@@ -98,7 +98,7 @@ export const sampleMeta: DeckMeta = {
   player: { autoHideControls: true },
 }
 
-import { BitStrip, ClassTree, MatrixOrder, MemoryMap, RelationGraph, VennMini, chain, layered } from '@/ui/structures'
+import { BitStrip, ClassTree, FunctionPlot, MatrixOrder, MemoryMap, RelationGraph, VennMini, chain, layered } from '@/ui/structures'
 
 const FOOTER = 'REST APIs · Backend'
 
@@ -1639,11 +1639,38 @@ export const sampleDeck: SlideDef[] = [
     ),
   },
   {
+    id: 'function-plot',
+    label: 'Function plot',
+    section: 'Structures',
+    notes:
+      'THE GRAPH OF y = f(x), DRAWN ONLY OVER ITS DOMAIN. `codomain` is a bar on the y-axis, `faded` draws a part no longer in the domain, `holes` are open circles, `mirror` draws y = x for an inverse. Each frame is one press; a new curve draws itself. Not for data series (a chart) or a process (FlowChart).',
+    element: (
+      <ContentSlide kicker="Structures" title="FunctionPlot" lead="x² restricted to [0, ∞), and its inverse √x" lesson="Gallery">
+        <FunctionPlot
+          width={420}
+          height={330}
+          x={[-2.5, 5]}
+          y={[-1, 5]}
+          frames={[
+            { curves: [{ id: 'sq', fn: (x) => x * x, domain: [-2.2, 2.2] }], caption: 'x² on R' },
+            { curves: [{ id: 'sqL', fn: (x) => x * x, domain: [-2.2, 0], faded: true }, { id: 'sq', fn: (x) => x * x, domain: [0, 2.2] }], codomain: [0, 5], caption: 'Restricted to [0, ∞)' },
+            {
+              curves: [{ id: 'sqL', fn: (x) => x * x, domain: [-2.2, 0], faded: true }, { id: 'sq', fn: (x) => x * x, domain: [0, 2.2] }, { id: 'rt', fn: Math.sqrt, domain: [0, 4.9], tone: 'ok' }],
+              codomain: [0, 5],
+              mirror: true,
+              caption: '√x mirrors it in y = x',
+            },
+          ]}
+        />
+      </ContentSlide>
+    ),
+  },
+  {
     id: 'feedback',
     label: 'Feedback',
     section: 'Wrap-up',
     element: (
-      <FeedbackSlide lesson={FOOTER} />
+      <FeedbackSlide lesson={FOOTER} formless />
     ),
   },
   {
