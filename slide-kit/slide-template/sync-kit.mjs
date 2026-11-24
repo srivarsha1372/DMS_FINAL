@@ -120,6 +120,8 @@ const KIT = {
        it is the only check here that can catch the marker breaking, and a session
        that is behind on it is a session whose marker nobody has tested. */
     'marker-check.mjs',
+    /* The Editor controls' harness (src/deck/edit), on the built html. */
+    'edit-check.mjs',
     'scan-fonts.mjs',
     'vite.review.config.ts',
     'deck.config.mjs',

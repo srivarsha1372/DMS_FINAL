@@ -241,6 +241,14 @@ export function Deck({ slides, meta, transition = 'slide' }: DeckProps) {
     [gotoSlide],
   )
 
+  /*
+    The slide list can shrink while the deck is open: an Editor deletes a slide
+    (`edit/EditableDeck`). Stay on a real slide rather than past the end.
+  */
+  useEffect(() => {
+    if (total > 0 && index > total - 1) setIndex(total - 1)
+  }, [total, index])
+
   // React to browser back/forward (hash changes).
   useEffect(() => {
     const onHash = () => {

@@ -1670,7 +1670,7 @@ export const sampleDeck: SlideDef[] = [
     label: 'Feedback',
     section: 'Wrap-up',
     element: (
-      <FeedbackSlide lesson={FOOTER} />
+      <FeedbackSlide lesson={FOOTER} formless />
     ),
   },
   {
