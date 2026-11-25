@@ -1,7 +1,7 @@
 <!-- cSpell:ignore NxtWave devPort DSM PDNF PCNF minterm minterms maxterm maxterms -->
 # Normal Forms: slide-wise plan
 
-**STATUS: SIGNED OFF 2026-11-25** (signed off by the user in conversation; decisions in section 7 accepted as proposed)
+**STATUS: SIGNED OFF 2026-11-25 · PUBLISHED 2026-11-26** (signed off by the user in conversation; decisions in section 7 accepted as proposed)
 
 | | |
 |---|---|
@@ -15,9 +15,9 @@
 | Content slides | **28** |
 | Compulsory frames | **16** (brand, welcome, agenda, 7 dividers, 2 quiz, takeaways, feedback, thank you, all the best) |
 | `slideCount` | **44** (under the 50 cap) |
-| Branch | `worktree-deck-normal-forms`, built on `main` |
+| Branch | `deck/normal-forms`, built on `main` |
 | Delivery | `dist-single/` HTML in the repo, and a private claude.ai link with the Editor controls, like the other DSM decks |
-| Artifact | (filled in at stage E) |
+| Artifact | https://claude.ai/artifact/VBTRPR8L8FSyxsu96fBUZ7 (private; Editor controls) |
 
 Every equivalence, DNF, CNF, PDNF, PCNF and the Σ shorthand in the source
 was checked by truth table in `verify_tr.py` beside this file:

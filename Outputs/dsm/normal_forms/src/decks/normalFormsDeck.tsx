@@ -438,7 +438,7 @@ export const normalFormsDeck: SlideDef[] = [
               ['¬P ∨ Q', 'ok'],
               ['¬Q → ¬P', 'warn'],
             ].map(([f, t]) => (
-              <Card key={f} tone={t as Tone} className="text-center">
+              <Card key={f} tone={t as Tone}>
                 <span className="font-heading text-[30px] font-semibold" style={{ color: colors.ink }}>
                   {f}
                 </span>
@@ -446,9 +446,9 @@ export const normalFormsDeck: SlideDef[] = [
             ))}
           </div>
           <Step>
-            <Card className="text-center">
+            <Card>
               <Label>Same fingerprint: truth values in rows TT, TF, FT, FF</Label>
-              <div className="mt-2 flex justify-center gap-3">
+              <div className="mt-2 flex gap-3">
                 {['T', 'F', 'T', 'T'].map((v, i) => (
                   <Lit key={i} v={<span className="px-2 text-[24px]">{v}</span>} tone={v === 'T' ? 'ok' : 'bad'} />
                 ))}
@@ -693,7 +693,7 @@ export const normalFormsDeck: SlideDef[] = [
               ['(P ∧ Q) ∨ (P ∧ ¬Q)', 'split on Q'],
             ].map(([f, why]) => (
               <Step key={f}>
-                <Card className="text-center">
+                <Card>
                   <span className="inline-block rounded-md px-2 text-[16px] font-semibold text-white" style={{ background: colors.brand }}>
                     DNF
                   </span>
